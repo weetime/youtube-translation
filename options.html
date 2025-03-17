@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Subtitle Translator - Settings</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    
+    .api-info {
+      background-color: #f5f5f5;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    
+    .api-info h2 {
+      font-size: 16px;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    
+    .api-info p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    
+    .api-info a {
+      color: #4285f4;
+      text-decoration: none;
+    }
+    
+    .api-info a:hover {
+      text-decoration: underline;
+    }
+    
+    .buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    
+    button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    button.primary {
+      background-color: #4285f4;
+      color: white;
+    }
+    
+    button.primary:hover {
+      background-color: #3367d6;
+    }
+    
+    button.secondary {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    
+    button.secondary:hover {
+      background-color: #e5e5e5;
+    }
+    
+    .status {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      display: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .status.success {
+      background-color: #e6f4ea;
+      color: #34a853;
+      display: block;
+    }
+    
+    .status.error {
+      background-color: #fce8e6;
+      color: #ea4335;
+      display: block;
+    }
+    
+    .status.info {
+      background-color: #e8f0fe;
+      color: #4285f4;
+      display: block;
+    }
+    
+    .translation-mode {
+      margin-bottom: 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .translation-mode label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .translation-mode input[type="radio"] {
+      margin-right: 10px;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 640px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .buttons {
+        flex-direction: column;
+      }
+      
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>YouTube Subtitle Translator Settings</h1>
+    
+    <div class="api-info">
+      <h2>百度翻译 API 设置</h2>
+      <p>要使用真实的翻译功能，您需要注册百度翻译 API 并获取 APP ID 和密钥。</p>
+      <p>注册步骤：</p>
+      <ol>
+        <li>访问 <a href="http://api.fanyi.baidu.com/" target="_blank">百度翻译开放平台</a></li>
+        <li>注册账号并登录</li>
+        <li>创建应用，选择"通用翻译API"</li>
+        <li>获取 APP ID 和密钥</li>
+      </ol>
+    </div>
+    
+    <div class="translation-mode">
+      <label>
+        <input type="radio" name="translationMode" value="simple" checked> 
+        使用简单翻译（无需 API，仅支持基本词汇）
+      </label>
+      <label>
+        <input type="radio" name="translationMode" value="baidu"> 
+        使用百度翻译 API（需要 APP ID 和密钥）
+      </label>
+    </div>
+    
+    <div class="form-group">
+      <label for="appId">百度翻译 APP ID</label>
+      <input type="text" id="appId" placeholder="输入您的 APP ID">
+    </div>
+    
+    <div class="form-group">
+      <label for="secretKey">百度翻译密钥</label>
+      <input type="text" id="secretKey" placeholder="输入您的密钥">
+    </div>
+    
+    <div class="buttons">
+      <button id="testApi" class="secondary">测试 API</button>
+      <button id="saveSettings" class="primary">保存设置</button>
+    </div>
+    
+    <div id="status" class="status"></div>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html>
