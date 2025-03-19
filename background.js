@@ -1,6 +1,6 @@
-// 监听安装
+// Listen for installation
 chrome.runtime.onInstalled.addListener(() => {
-  // 初始化默认设置
+  // Initialize default settings
   chrome.storage.sync.get(['subtitlesEnabled', 'language'], (result) => {
     if (!result.hasOwnProperty('subtitlesEnabled')) {
       chrome.storage.sync.set({ subtitlesEnabled: false });

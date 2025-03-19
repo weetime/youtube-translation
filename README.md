@@ -1,56 +1,56 @@
 # YouTube Subtitle Helper
 
-这是一个 Chrome 扩展，用于为 YouTube 视频添加自定义字幕功能。
+This is a Chrome extension for adding custom subtitle functionality to YouTube videos.
 
-## 功能特点
+## Features
 
-- 支持在 YouTube 视频上显示自定义字幕
-- 支持多语言切换（英文、中文、日语）
-- 字幕显示位置可调整
-- 简单易用的用户界面
+- Support for displaying custom subtitles on YouTube videos
+- Support for multiple languages (English, Chinese, Japanese)
+- Adjustable subtitle position
+- Simple and easy-to-use interface
 
-## 安装说明
+## Installation Instructions
 
-1. 克隆或下载此仓库到本地
-2. 打开 Chrome 浏览器，进入扩展管理页面（chrome://extensions/）
-3. 开启右上角的"开发者模式"
-4. 点击"加载已解压的扩展程序"
-5. 选择本项目的根目录
+1. Clone or download this repository to your local machine
+2. Open Chrome browser and go to the extensions management page (chrome://extensions/)
+3. Enable "Developer mode" in the top right corner
+4. Click "Load unpacked extension"
+5. Select the root directory of this project
 
-## 使用方法
+## How to Use
 
-1. 安装扩展后，在 YouTube 视频页面上会出现一个扩展图标
-2. 点击图标打开控制面板
-3. 使用控制面板中的按钮开启/关闭字幕
-4. 使用下拉菜单选择字幕语言
+1. After installing the extension, an extension icon will appear on YouTube video pages
+2. Click the icon to open the control panel
+3. Use the buttons in the control panel to enable/disable subtitles
+4. Use the dropdown menu to select the subtitle language
 
-## 项目结构
+## Project Structure
 
 ```
 youtube-translation/
-├── manifest.json     # Chrome 扩展配置文件
-├── popup.html       # 扩展弹出窗口界面
-├── popup.js         # 弹出窗口交互逻辑
-├── content.js       # 注入到 YouTube 页面的主要功能代码
-├── styles.css       # 样式文件
-├── icons/           # 扩展图标
+├── manifest.json    # Chrome extension configuration file
+├── popup.html       # Extension popup interface
+├── popup.js         # Popup interaction logic
+├── content.js       # Main functionality code injected into YouTube pages
+├── styles.css       # Style file
+├── icons/           # Extension icons
 │   ├── icon16.png
 │   ├── icon48.png
 │   └── icon128.png
-└── README.md        # 项目说明文档
+└── README.md        # Project documentation
 ```
 
-## 开发计划
+## Development Plans
 
-- [ ] 添加字幕上传功能
-- [ ] 支持更多语言
-- [ ] 添加字幕样式自定义
-- [ ] 支持字幕时间轴调整
+- [ ] Add subtitle upload functionality
+- [ ] Support for more languages
+- [ ] Add subtitle style customization
+- [ ] Support for subtitle timeline adjustment
 
-## 贡献指南
+## Contribution Guidelines
 
-欢迎提交 Pull Request 或创建 Issue 来帮助改进这个项目。
+Pull Requests and Issues are welcome to help improve this project.
 
-## 许可证
+## License
 
 MIT License

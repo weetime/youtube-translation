@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const statusDiv = document.getElementById('status');
   const translationModeRadios = document.getElementsByName('translationMode');
   
-  // 加载保存的设置
+  // Load saved settings
   chrome.storage.sync.get(['baiduAppId', 'baiduSecretKey', 'translationMode'], function(result) {
     if (result.baiduAppId) {
       appIdInput.value = result.baiduAppId;
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
       secretKeyInput.value = result.baiduSecretKey;
     }
     
-    // 设置翻译模式
+    // Set translation mode
     const mode = result.translationMode || 'simple';
     for (const radio of translationModeRadios) {
       if (radio.value === mode) {
@@ -23,17 +23,17 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
     
-    // 根据模式启用/禁用输入框
+    // Enable/disable inputs based on mode
     toggleInputsBasedOnMode(mode);
   });
   
-  // 保存设置
+  // Save settings
   saveButton.addEventListener('click', function() {
     const appId = appIdInput.value.trim();
     const secretKey = secretKeyInput.value.trim();
     let translationMode = 'simple';
     
-    // 获取选中的翻译模式
+    // Get selected translation mode
     for (const radio of translationModeRadios) {
       if (radio.checked) {
         translationMode = radio.value;
@@ -41,64 +41,64 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
     
-    // 如果选择了百度翻译但没有填写 API 信息
+    // If Baidu translation selected but no API info provided
     if (translationMode === 'baidu' && (!appId || !secretKey)) {
-      showStatus('请填写百度翻译 APP ID 和密钥', 'error');
+      showStatus('Please enter Baidu Translation APP ID and Secret Key', 'error');
       return;
     }
     
-    // 保存设置
+    // Save settings
     chrome.storage.sync.set({
       baiduAppId: appId,
       baiduSecretKey: secretKey,
       translationMode: translationMode
     }, function() {
-      showStatus('设置已保存', 'success');
+      showStatus('Settings saved', 'success');
     });
   });
   
-  // 测试 API
+  // Test API
   testButton.addEventListener('click', function() {
     const appId = appIdInput.value.trim();
     const secretKey = secretKeyInput.value.trim();
     
     if (!appId || !secretKey) {
-      showStatus('请填写百度翻译 APP ID 和密钥', 'error');
+      showStatus('Please enter Baidu Translation APP ID and Secret Key', 'error');
       return;
     }
     
-    showStatus('正在测试 API...', 'info');
+    showStatus('Testing API...', 'info');
     
-    // 生成随机数作为 salt
+    // Generate random number as salt
     const salt = Math.random().toString(36).substr(2);
-    // 测试文本
+    // Test text
     const query = 'Hello, world!';
-    // 生成签名
+    // Generate signature
     const sign = generateSign(query, salt, appId, secretKey);
     
-    // 发送测试请求
+    // Send test request
     fetch(`https://api.fanyi.baidu.com/api/trans/vip/translate?q=${encodeURIComponent(query)}&from=en&to=zh&appid=${appId}&salt=${salt}&sign=${sign}`)
       .then(response => response.json())
       .then(data => {
         if (data.error_code) {
-          showStatus(`API 测试失败: ${data.error_msg}`, 'error');
+          showStatus(`API test failed: ${data.error_msg}`, 'error');
         } else {
-          showStatus(`API 测试成功! 翻译结果: ${data.trans_result[0].dst}`, 'success');
+          showStatus(`API test successful! Translation result: ${data.trans_result[0].dst}`, 'success');
         }
       })
       .catch(error => {
-        showStatus(`API 测试失败: ${error.message}`, 'error');
+        showStatus(`API test failed: ${error.message}`, 'error');
       });
   });
   
-  // 翻译模式切换
+  // Translation mode switch
   for (const radio of translationModeRadios) {
     radio.addEventListener('change', function() {
       toggleInputsBasedOnMode(this.value);
     });
   }
   
-  // 根据翻译模式启用/禁用输入框
+  // Enable/disable inputs based on translation mode
   function toggleInputsBasedOnMode(mode) {
     const disabled = mode !== 'baidu';
     appIdInput.disabled = disabled;
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
     testButton.disabled = disabled;
   }
   
-  // 显示状态消息
+  // Show status message
   function showStatus(message, type) {
     statusDiv.textContent = message;
     statusDiv.className = 'status ' + type;
@@ -118,16 +118,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // 生成百度翻译 API 签名
+  // Generate Baidu translation API signature
   function generateSign(query, salt, appId, secretKey) {
-    // 注意：在实际应用中，应该使用适当的 MD5 库
-    // 这里使用一个简单的模拟函数
+    // Note: In an actual application, you should use an appropriate MD5 library
+    // This is using a simple simulation function
     return md5(appId + query + salt + secretKey);
   }
   
-  // 简单的 MD5 模拟函数（仅用于演示）
+  // Simple MD5 simulation function (for demonstration only)
   function md5(string) {
-    // 实际应用中应使用真正的 MD5 库
+    // In an actual application, you should use a real MD5 library
     return Array.from(string).reduce(
       (acc, char) => (acc << 5) - acc + char.charCodeAt(0), 0
     ).toString(16);

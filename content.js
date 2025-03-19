@@ -1,4 +1,4 @@
-// 全局变量
+// Global variables
 let subtitlesEnabled = false;
 let currentLanguage = 'en';
 let subtitleContainer = null;
@@ -10,11 +10,11 @@ let translationMode = 'simple';
 let baiduAppId = '';
 let baiduSecretKey = '';
 
-// 初始化
+// Initialization
 function init() {
-  console.log('YouTube Subtitle Helper: 初始化');
+  console.log('YouTube Subtitle Helper: Initializing');
   
-  // 加载设置
+  // Load settings
   chrome.storage.sync.get(['subtitlesEnabled', 'language', 'translationMode', 'baiduAppId', 'baiduSecretKey'], function(result) {
     subtitlesEnabled = result.subtitlesEnabled || false;
     currentLanguage = result.language || 'en';
@@ -22,39 +22,39 @@ function init() {
     baiduAppId = result.baiduAppId || '';
     baiduSecretKey = result.baiduSecretKey || '';
     
-    console.log('加载设置:', { 
+    console.log('Loaded settings:', { 
       subtitlesEnabled, 
       currentLanguage, 
       translationMode,
       hasBaiduApi: !!baiduAppId && !!baiduSecretKey
     });
     
-    // 创建模拟字幕
+    // Create mock subtitles
     createMockSubtitles();
     
-    // 创建字幕容器
+    // Create subtitle container
     createSubtitleContainer();
     
-    // 如果字幕已启用，显示字幕
+    // If subtitles are enabled, show them
     if (subtitlesEnabled) {
       showSubtitles();
     }
     
-    // 开始检查视频
+    // Start checking for video
     startVideoCheck();
     
-    // 开始检查字幕容器
+    // Start checking for subtitle container
     startContainerCheck();
   });
   
-  // 监听设置变化
+  // Listen for setting changes
   chrome.storage.onChanged.addListener(function(changes, namespace) {
     if (namespace === 'sync') {
       if (changes.translationMode) {
         translationMode = changes.translationMode.newValue;
-        console.log('翻译模式已更改:', translationMode);
+        console.log('Translation mode changed:', translationMode);
         
-        // 如果字幕已启用，重新翻译
+        // If subtitles are enabled, retranslate
         if (subtitlesEnabled) {
           translateSubtitles();
         }
@@ -71,14 +71,14 @@ function init() {
   });
 }
 
-// 创建字幕容器
+// Create subtitle container
 function createSubtitleContainer() {
-  // 如果容器已存在但不在文档中，移除引用
+  // If container exists but not in document, remove reference
   if (subtitleContainer && !document.body.contains(subtitleContainer)) {
     subtitleContainer = null;
   }
   
-  // 如果容器不存在，创建新容器
+  // If container doesn't exist, create a new one
   if (!subtitleContainer) {
     subtitleContainer = document.createElement('div');
     subtitleContainer.id = 'youtube-subtitle-helper-container';
@@ -98,23 +98,23 @@ function createSubtitleContainer() {
     subtitleContainer.style.display = 'none';
     
     document.body.appendChild(subtitleContainer);
-    console.log('字幕容器已创建');
+    console.log('Subtitle container created');
   }
 }
 
-// 开始检查字幕容器
+// Start checking subtitle container
 function startContainerCheck() {
   if (containerCheckInterval) {
     clearInterval(containerCheckInterval);
   }
   
   containerCheckInterval = setInterval(() => {
-    // 检查容器是否存在于文档中
+    // Check if container exists in document
     if (!subtitleContainer || !document.body.contains(subtitleContainer)) {
-      console.log('字幕容器不存在或已从文档中移除，重新创建');
+      console.log('Subtitle container does not exist or has been removed from document, recreating');
       createSubtitleContainer();
       
-      // 如果字幕已启用，更新字幕
+      // If subtitles are enabled, update subtitles
       if (subtitlesEnabled) {
         const video = document.querySelector('video');
         if (video) {
@@ -124,10 +124,10 @@ function startContainerCheck() {
     }
   }, 1000);
   
-  console.log('字幕容器检查已启动');
+  console.log('Subtitle container check started');
 }
 
-// 创建模拟字幕
+// Create mock subtitles
 function createMockSubtitles() {
   mockSubtitles = [
     { start: 0, duration: 5, text: "Welcome to this video about Model Context Protocol" },
@@ -147,10 +147,10 @@ function createMockSubtitles() {
   ];
   
   translatedSubtitles = mockSubtitles;
-  console.log('模拟字幕已创建');
+  console.log('Mock subtitles created');
 }
 
-// 开始检查视频
+// Start checking video
 function startVideoCheck() {
   if (videoCheckInterval) {
     clearInterval(videoCheckInterval);
@@ -163,10 +163,10 @@ function startVideoCheck() {
     }
   }, 100);
   
-  console.log('视频检查已启动');
+  console.log('Video check started');
 }
 
-// 显示字幕
+// Show subtitles
 function showSubtitles() {
   subtitlesEnabled = true;
   
@@ -174,10 +174,10 @@ function showSubtitles() {
     translateSubtitles();
   }
   
-  console.log('字幕已启用');
+  console.log('Subtitles enabled');
 }
 
-// 隐藏字幕
+// Hide subtitles
 function hideSubtitles() {
   subtitlesEnabled = false;
   
@@ -185,19 +185,19 @@ function hideSubtitles() {
     subtitleContainer.style.display = 'none';
   }
   
-  console.log('字幕已禁用');
+  console.log('Subtitles disabled');
 }
 
-// 更新字幕
+// Update subtitles
 function updateSubtitles(currentTime) {
-  // 确保容器存在
+  // Ensure container exists
   if (!subtitleContainer) {
     createSubtitleContainer();
   }
   
   if (!translatedSubtitles || !subtitlesEnabled) return;
   
-  // 循环播放字幕（每70秒重复一次）
+  // Loop subtitles (repeat every 70 seconds)
   const adjustedTime = currentTime % 70;
   
   const currentSubtitle = translatedSubtitles.find(subtitle => 
@@ -213,18 +213,18 @@ function updateSubtitles(currentTime) {
   }
 }
 
-// 翻译字幕
+// Translate subtitles
 async function translateSubtitles() {
   if (!mockSubtitles || currentLanguage === 'en') {
     translatedSubtitles = mockSubtitles;
     return;
   }
   
-  console.log('翻译字幕为:', currentLanguage, '使用模式:', translationMode);
+  console.log('Translating subtitles to:', currentLanguage, 'using mode:', translationMode);
   
   try {
     if (translationMode === 'baidu' && baiduAppId && baiduSecretKey) {
-      // 使用百度翻译 API
+      // Use Baidu Translation API
       translatedSubtitles = await Promise.all(
         mockSubtitles.map(async subtitle => ({
           ...subtitle,
@@ -232,15 +232,15 @@ async function translateSubtitles() {
         }))
       );
     } else {
-      // 使用简单翻译
+      // Use simple translation
       translatedSubtitles = mockSubtitles.map(subtitle => ({
         ...subtitle,
         text: translateWithSimpleDict(subtitle.text, currentLanguage)
       }));
     }
   } catch (error) {
-    console.error('翻译字幕失败:', error);
-    // 如果翻译失败，回退到简单翻译
+    console.error('Failed to translate subtitles:', error);
+    // If translation fails, fall back to simple translation
     translatedSubtitles = mockSubtitles.map(subtitle => ({
       ...subtitle,
       text: translateWithSimpleDict(subtitle.text, currentLanguage)
@@ -248,15 +248,15 @@ async function translateSubtitles() {
   }
 }
 
-// 使用百度翻译 API 翻译文本
+// Translate text using Baidu Translation API
 async function translateWithBaiduApi(text, targetLang) {
   try {
-    // 生成随机数作为 salt
+    // Generate random number as salt
     const salt = Math.random().toString(36).substr(2);
-    // 生成签名
+    // Generate signature
     const sign = generateSign(text, salt, baiduAppId, baiduSecretKey);
     
-    // 语言代码映射
+    // Language code mapping
     const langMap = {
       'zh': 'zh',
       'ja': 'jp',
@@ -271,39 +271,39 @@ async function translateWithBaiduApi(text, targetLang) {
     
     const targetLanguage = langMap[targetLang] || targetLang;
     
-    // 发送翻译请求
+    // Send translation request
     const response = await fetch(`https://api.fanyi.baidu.com/api/trans/vip/translate?q=${encodeURIComponent(text)}&from=en&to=${targetLanguage}&appid=${baiduAppId}&salt=${salt}&sign=${sign}`);
     const data = await response.json();
     
     if (data.error_code) {
-      throw new Error(`翻译错误: ${data.error_msg}`);
+      throw new Error(`Translation error: ${data.error_msg}`);
     }
     
     return data.trans_result[0].dst;
   } catch (error) {
-    console.error('百度翻译 API 调用失败:', error);
-    // 如果 API 调用失败，回退到简单翻译
+    console.error('Baidu Translation API call failed:', error);
+    // If API call fails, fall back to simple translation
     return translateWithSimpleDict(text, targetLang);
   }
 }
 
-// 生成百度翻译 API 签名
+// Generate Baidu Translation API signature
 function generateSign(query, salt, appId, secretKey) {
   const str = appId + query + salt + secretKey;
   return md5(str);
 }
 
-// 简单的 MD5 实现（仅用于演示）
+// Simple MD5 implementation (for demonstration only)
 function md5(string) {
-  // 实际应用中应使用真正的 MD5 库
+  // In a real application, you should use a proper MD5 library
   return Array.from(string).reduce(
     (acc, char) => (acc << 5) - acc + char.charCodeAt(0), 0
   ).toString(16);
 }
 
-// 使用简单字典翻译文本
+// Translate text using simple dictionary
 function translateWithSimpleDict(text, targetLang) {
-  // 简单的翻译映射
+  // Simple translation mapping
   const translations = {
     'zh': {
       'welcome': '欢迎',
@@ -441,33 +441,33 @@ function translateWithSimpleDict(text, targetLang) {
     }
   };
 
-  // 如果目标语言不在我们的简单翻译映射中，返回原文
+  // If target language not in our simple translation mapping, return original text
   if (!translations[targetLang]) {
     return `[${targetLang}] ${text}`;
   }
 
-  // 将文本分割成单词
+  // Split text into words
   const words = text.split(/\s+/);
   
-  // 翻译每个单词
+  // Translate each word
   const translatedWords = words.map(word => {
-    // 去除标点符号进行查找
+    // Remove punctuation for lookup
     const cleanWord = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
     
-    // 查找翻译
+    // Find translation
     const translation = translations[targetLang][cleanWord];
     
-    // 如果找到翻译，替换原单词，否则保留原单词
+    // If translation found, replace original word, otherwise keep original word
     return translation || word;
   });
   
-  // 将翻译后的单词重新组合成句子
+  // Recombine translated words into a sentence
   return translatedWords.join(' ');
 }
 
-// 监听消息
+// Listen for messages
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  console.log('收到消息:', request.action);
+  console.log('Message received:', request.action);
   
   switch (request.action) {
     case 'toggleSubtitles':
@@ -500,7 +500,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   return true;
 });
 
-// 页面卸载时清除定时器
+// Clear timers on page unload
 window.addEventListener('beforeunload', function() {
   if (videoCheckInterval) {
     clearInterval(videoCheckInterval);
@@ -510,6 +510,6 @@ window.addEventListener('beforeunload', function() {
   }
 });
 
-// 初始化
-console.log('YouTube Subtitle Helper: 内容脚本已加载');
+// Initialize
+console.log('YouTube Subtitle Helper: Content script loaded');
 init();

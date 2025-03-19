@@ -1,61 +1,61 @@
-# 百度翻译 API 设置指南
+# Baidu Translation API Setup Guide
 
-## 获取 API 密钥
+## Obtaining API Keys
 
-1. 访问百度翻译开放平台：http://api.fanyi.baidu.com/
-2. 点击"立即注册"（如果没有账号）或"登录"（如果已有账号）
-3. 登录后，点击"管理控制台"
-4. 选择"开通通用翻译API"
-5. 填写应用信息：
-   - 应用名称：YouTube Subtitle Helper
-   - 应用类型：选择"网页应用"
-   - 其他信息根据提示填写
-6. 提交审核后，你将获得：
+1. Visit the Baidu Translation Open Platform: http://api.fanyi.baidu.com/
+2. Click "Register Now" (if you don't have an account) or "Login" (if you already have an account)
+3. After logging in, click "Management Console"
+4. Select "Enable General Translation API"
+5. Fill in the application information:
+   - Application Name: YouTube Subtitle Helper
+   - Application Type: Select "Web Application"
+   - Fill in other information as prompted
+6. After submitting for review, you will receive:
    - APP ID
-   - 密钥（Secret Key）
+   - Secret Key
 
-## 配置扩展
+## Configuring the Extension
 
-1. 打开 `config.js` 文件
-2. 替换以下值：
+1. Open the `config.js` file
+2. Replace the following values:
    ```javascript
    const CONFIG = {
-     BAIDU_APP_ID: '你的APP_ID',
-     BAIDU_SECRET_KEY: '你的密钥'
+     BAIDU_APP_ID: 'your_APP_ID',
+     BAIDU_SECRET_KEY: 'your_secret_key'
    };
    ```
 
-## 使用限制
+## Usage Limitations
 
-- 标准版：
-  - 每月免费额度：5万字符
-  - QPS限制：10次/秒
-  - 支持28个语种
-  - 请求长度限制：6000字节
+- Standard Version:
+  - Monthly Free Quota: 50,000 characters
+  - QPS Limit: 10 requests/second
+  - Supports 28 languages
+  - Request Length Limit: 6000 bytes
   
-- 高级版：
-  - 每月200万字符起
-  - QPS限制：可定制
-  - 支持200+语种
-  - 请求长度限制：6000字节
+- Advanced Version:
+  - Starting from 2 million characters per month
+  - QPS Limit: Customizable
+  - Supports 200+ languages
+  - Request Length Limit: 6000 bytes
 
-## 注意事项
+## Important Notes
 
-1. 请妥善保管你的 API 密钥，不要分享给他人
-2. 建议监控使用量，避免超出免费额度
-3. 如果使用量较大，建议升级到高级版
-4. 遇到问题可以参考百度翻译开放平台的帮助文档
+1. Keep your API keys secure and do not share them with others
+2. It is recommended to monitor usage to avoid exceeding the free quota
+3. If your usage is high, consider upgrading to the advanced version
+4. For issues, refer to the help documentation on the Baidu Translation Open Platform
 
-## 错误代码说明
+## Error Code Descriptions
 
-- 52001：请求超时
-- 52002：系统错误
-- 52003：未授权用户
-- 54000：必填参数为空
-- 54001：签名错误
-- 54003：访问频率受限
-- 54004：账户余额不足
-- 54005：长query请求频繁
-- 58000：客户端IP非法
-- 58001：译文语言方向不支持
-- 58002：服务当前已关闭
+- 52001: Request timeout
+- 52002: System error
+- 52003: Unauthorized user
+- 54000: Required parameter is empty
+- 54001: Signature error
+- 54003: Access frequency limited
+- 54004: Insufficient account balance
+- 54005: Frequent long query requests
+- 58000: Client IP not allowed
+- 58001: Translation language direction not supported
+- 58002: Service currently closed

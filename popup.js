@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const openSettingsLink = document.getElementById('openSettings');
   const translationModeDisplay = document.getElementById('translationModeDisplay');
 
-  // 加载设置
+  // Load settings
   chrome.storage.sync.get(['subtitlesEnabled', 'language', 'translationMode', 'baiduAppId', 'baiduSecretKey'], function(result) {
     if (result.subtitlesEnabled) {
       toggleButton.textContent = 'Disable Subtitles';
@@ -17,16 +17,16 @@ document.addEventListener('DOMContentLoaded', function() {
       languageSelect.value = result.language;
     }
     
-    // 显示翻译模式
+    // Display translation mode
     const mode = result.translationMode || 'simple';
     if (mode === 'simple') {
-      translationModeDisplay.textContent = '简单翻译';
+      translationModeDisplay.textContent = 'Simple Translation';
     } else if (mode === 'baidu') {
-      translationModeDisplay.textContent = '百度翻译 API';
+      translationModeDisplay.textContent = 'Baidu Translation API';
     }
   });
 
-  // 获取当前标签页信息
+  // Get current tab info
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     const currentTab = tabs[0];
     
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // 切换字幕
+  // Toggle subtitles
   toggleButton.addEventListener('click', function() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // 更改语言
+  // Change language
   languageSelect.addEventListener('change', function() {
     const language = languageSelect.value;
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -79,12 +79,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // 打开设置页面
+  // Open settings page
   openSettingsLink.addEventListener('click', function() {
     chrome.runtime.openOptionsPage();
   });
 
-  // 显示状态消息
+  // Show status message
   function showStatus(message, type) {
     status.textContent = message;
     status.className = 'status ' + type;

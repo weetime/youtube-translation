@@ -180,41 +180,41 @@
     <h1>YouTube Subtitle Translator Settings</h1>
     
     <div class="api-info">
-      <h2>百度翻译 API 设置</h2>
-      <p>要使用真实的翻译功能，您需要注册百度翻译 API 并获取 APP ID 和密钥。</p>
-      <p>注册步骤：</p>
+      <h2>Baidu Translation API Settings</h2>
+      <p>To use real translation functionality, you need to register for the Baidu Translation API and obtain an APP ID and Secret Key.</p>
+      <p>Registration steps:</p>
       <ol>
-        <li>访问 <a href="http://api.fanyi.baidu.com/" target="_blank">百度翻译开放平台</a></li>
-        <li>注册账号并登录</li>
-        <li>创建应用，选择"通用翻译API"</li>
-        <li>获取 APP ID 和密钥</li>
+        <li>Visit <a href="http://api.fanyi.baidu.com/" target="_blank">Baidu Translation Open Platform</a></li>
+        <li>Register an account and log in</li>
+        <li>Create an application, select "General Translation API"</li>
+        <li>Obtain your APP ID and Secret Key</li>
       </ol>
     </div>
     
     <div class="translation-mode">
       <label>
         <input type="radio" name="translationMode" value="simple" checked> 
-        使用简单翻译（无需 API，仅支持基本词汇）
+        Use Simple Translation (No API required, only supports basic vocabulary)
       </label>
       <label>
         <input type="radio" name="translationMode" value="baidu"> 
-        使用百度翻译 API（需要 APP ID 和密钥）
+        Use Baidu Translation API (Requires APP ID and Secret Key)
       </label>
     </div>
     
     <div class="form-group">
-      <label for="appId">百度翻译 APP ID</label>
-      <input type="text" id="appId" placeholder="输入您的 APP ID">
+      <label for="appId">Baidu Translation APP ID</label>
+      <input type="text" id="appId" placeholder="Enter your APP ID">
     </div>
     
     <div class="form-group">
-      <label for="secretKey">百度翻译密钥</label>
-      <input type="text" id="secretKey" placeholder="输入您的密钥">
+      <label for="secretKey">Baidu Translation Secret Key</label>
+      <input type="text" id="secretKey" placeholder="Enter your Secret Key">
     </div>
     
     <div class="buttons">
-      <button id="testApi" class="secondary">测试 API</button>
-      <button id="saveSettings" class="primary">保存设置</button>
+      <button id="testApi" class="secondary">Test API</button>
+      <button id="saveSettings" class="primary">Save Settings</button>
     </div>
     
     <div id="status" class="status"></div>
